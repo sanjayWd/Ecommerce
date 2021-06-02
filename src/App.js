@@ -19,18 +19,18 @@ class App extends React.Component {
     }
   }
 
-  unSubscribeFromAuth=null
+  unsubscribeFromAuth=null
   componentDidMount(){
-    this.unSubscribeFromAuth=auth.onAuthStateChanged(user =>{
+    this.unsubscribeFromAuth=auth.onAuthStateChanged(user =>{
       this.setState({currentUser:user})
 
-        console.log(user.displayName)
-      console.log(user.email);
+        console.log(user)
+   
     })
   }
-  componentWillMount(){
-    this.unSubscribeFromAuth();
-  }
+  // componentWillMount(){
+  //   this.unsubscribeFromAuth();
+  // }
   render(){
   return (
     <div className="App">   
