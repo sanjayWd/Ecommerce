@@ -2,19 +2,29 @@ import React from 'react'
 import CustomButton from '../Custom-Button/custom-button.component';
 import FormInput from '../Form-Input/form-input';
 import './Sign-In.styles.scss'
-import {signInWithGoogle} from '../../firebase/firebase.util'
+import {auth,signInWithGoogle} from '../../firebase/firebase.util'
 class SignIn extends React.Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
 
         this.state = {
             email:'',
-            Password:''
+            password:''
         }
     }
-    handleSubmit =(event)=>{
+    handleSubmit =async(event)=>{
         event.preventDefault();
-        this.setState({email:'',Password:''})
+        const {email,password}= this.state  
+
+        try{
+            await auth.signInWithEmailAndPassword(email,password)    
+            this.setState({email:'',password:''})
+        }catch(error){
+            console.log(error);
+
+        }
+
+        
     }
     HandleChange= (event) =>{
         const {value,name}=event.target;
@@ -29,19 +39,29 @@ class SignIn extends React.Component {
 
                 <form onSubmit={this.handleSubmit}>
                     <FormInput
-                    label='Email'
-                    type="email" 
-                    name='email' 
+                    label='email'
+                    type='email' 
+                    HandleChange={this.HandleChange} 
                     value={this.state.email} 
-                    HandleChange={this.HandleChange} required
+                    name='email'
+                    required
                     />
 
-                    <FormInput                  
-                    label='Password'
-                    type="password"
+                    {/* <FormInput                  
+                    label='password'
+                    type='password'
+                    HandleChange={this.HandleChange}
+                    value={this.state.password} 
+                    required
+                    /> */}
+
+                    <FormInput
                     name='password'
-                    value={this.state.Password} 
-                    HandleChange={this.HandleChange} required
+                    type='password'
+                    value={this.state.password}
+                    HandleChange={this.HandleChange}
+                    label='password'
+                    required
                     />
                   <div className='buttons'>
                   <CustomButton  type='submit'>Sign In</CustomButton>
